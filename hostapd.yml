@@ -1,0 +1,21 @@
+---
+- name: instalar hostapd
+  apt: name=hostapd state=present
+- name: Archivo por defecto para el demonio 
+  template:
+   src=templates/hostapd.j2
+   dest=/etc/default/hostapd
+- name: Creando hotspot
+  template:
+   src=templates/hostapd.conf.j2
+   dest=/etc/hostapd/hostapd.conf
+- name: Creando zona por defecto dhcp
+  template:
+   src=templates/hotspot.sh
+   dest=/root/hotspot.sh
+- script: templates/hotspot.sh
+- systemd: state=restarted name=hostapd
+- name: Rc.local para tener conexion desde el principio
+  template:
+   src=templates/rc.local.j2
+   dest=/etc/rc.local

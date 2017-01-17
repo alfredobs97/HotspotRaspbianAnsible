@@ -1,0 +1,12 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+       - include: hostapd.yml
+       - include: dhcp.yml
+- handlers:
+        - name: reload dhcp
+          service: name=isc-dhcp-server state=restarted
+        - name: reload hostapd
+          service: name=hostapd state=restarted
+

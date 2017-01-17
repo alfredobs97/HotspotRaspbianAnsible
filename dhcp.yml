@@ -1,0 +1,16 @@
+---
+- name: instalar dhcp
+  apt: name=isc-dhcp-server state=present
+- name: Creando zona por defecto dhcp
+  template:
+   src=templates/dhcpd.conf.j2
+   dest=/etc/dhcp/dhcpd.conf
+- name: Solo dhcp por int wlan0
+  template:
+   src=templates/isc-dhcp-server.j2
+   dest=/etc/default/isc-dhcp-server
+- systemd: state=restarted name=isc-dhcp-server
+- name: Configurando interfaces de red
+  template:
+   src=templates/interfaces.j2
+   dest=/etc/network/interfaces
