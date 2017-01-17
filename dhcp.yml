@@ -14,3 +14,9 @@
   template:
    src=templates/interfaces.j2
    dest=/etc/network/interfaces
+- name: Reiniciar Raspberry
+  shell: sleep 5 && /sbin/shutdown -r now
+  async: 10
+  poll: 0
+  ignore_errors: true
+
